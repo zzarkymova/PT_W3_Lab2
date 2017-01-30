@@ -1,36 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Lab2
 {
+
     class Program
     {
         static void Main(string[] args)
         {
-            int[] array = new int[10]; 
-            int min; 
-            int max; 
-            for (int i = 0; i != 10; i++) 
+           
+            int min = int.MaxValue; 
+            int max = int.MinValue;
+
+            FileStream fs = new FileStream(@"C:\temp2\numbers.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            StreamReader sr = new StreamReader(fs);
+
+
+            while (!sr.EndOfStream) 
             {
-                Console.WriteLine("Enter a number", i);
-                array[i] = Convert.ToInt32(Console.ReadLine());
-            } 
-            max = array[0];
-            min = array[0];
-            for (int i = 1; i != 10; i++)
-            {
-                if (array[i] > max)
-                {
-                    max = array[i];
-                }
-                if (array[i] < min)
-                {
-                    min = array[i];
-                }
+                string text = sr.ReadLine();
+                int k = int.Parse(text);
+                min = Math.Min(min, k);
+                max = Math.Max(max, k);
             }
+
+            sr.Close();
+            fs.Close();
+
+        
             Console.WriteLine("Мaximum: {0}", max);
             Console.WriteLine("Minimum: {0}", min);
         }
